@@ -1,4 +1,5 @@
 <?php
+file_get_contents("https://www.google.com");
 require_once ("supportFunction.php");
 // register interface here
 // you can close any api for maintainance by ( $interface["api-name"] = false )
@@ -7,6 +8,7 @@ $interface["about-me"] = true; // &username=
 $interface["podcast"] = true;
 $interface["utm-event"] = true;
 $interface["iboard"] = true;
+$interface["utm-news-latest"] = true;
 
 ////////////////////////////////////
 // Do not edit after this line
