@@ -39,6 +39,9 @@ PARAMETERS ACCEPTED<hr></div>
 <br>This parameter require an additional parameter "expertid" and a value
 <br><b>http://www.utm.my/dev/api/api.php?interface=scival&expertid=[value]</b>
 <br>[value] of expertid must be a positive integer.
+<br><br>
+4.[utm-facebook-feed]
+<br>Return all status posted by utm in facebook together with posted date.
 </div>
 </div>
 </div>
