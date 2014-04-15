@@ -11,6 +11,7 @@ $interface["iboard"] = true;
 $interface["utm-news-latest"] = true;
 $interface["scival"] = true;
 $interface["news"] = true;
+$interface["utm-facebook-feed"] = true;
 ////////////////////////////////////
 // Do not edit after this line
 ////////////////////////////////////
