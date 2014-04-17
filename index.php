@@ -39,6 +39,11 @@ PARAMETERS ACCEPTED<hr></div>
 <br>This parameter require an additional parameter "expertid" and a value
 <br><b>http://www.utm.my/dev/api/api.php?interface=scival&expertid=[value]</b>
 <br>[value] of expertid must be a positive integer.
+<br><br>	
+7.[twitter-hashtag]
+<br>This parameter require an additional parameter "hashtag" and a value
+<br><b>http://www.utm.my/dev/api/api.php?interface=twitter-hashtag&hashtag=[value]</b>
+<br>[value] of hashtag is what you want to search.
 </div>
 </div>
 </div>
