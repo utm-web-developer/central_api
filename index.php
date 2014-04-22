@@ -44,6 +44,9 @@ PARAMETERS ACCEPTED<hr></div>
 <br>This parameter require an additional parameter "hashtag" and a value
 <br><b>http://www.utm.my/dev/api/api.php?interface=twitter-hashtag&hashtag=[value]</b>
 <br>[value] of hashtag is what you want to search.
+<br><br>
+8.[utm-facebook-feed]
+<br>Return all status posted by utm in facebook together with posted date.
 </div>
 </div>
 </div>
