@@ -15,7 +15,11 @@ $response = $facebook->api(
 $message = array();
 for ($i=0; $i<count($response['data']); $i++)
     {
-    array_push($message,array($response['data'][$i]['message'],$response['data'][$i]['created_time'],$response['data'][$i]['link']));
+    if (@$response['data'][$i]['message'])
+    	{
+        array_push($message,array($response['data'][$i]['message'], $response['data'][$i]['created_time'], $response['data'][$i]['link']));
+        }
     }
 $jsonResult = $message;
+
 
