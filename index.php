@@ -47,5 +47,11 @@ PARAMETERS ACCEPTED<hr></div>
 <br><br>
 8.[utm_facebook_feed]
 <br>Return all status posted by utm in facebook together with posted date.
+<br><br>
+9.[profile]
+<br>This parameter require an additional parameter "entry_id" and a value
+<br>Return profile of the respective id.
+
+
 </div>
 </div>
