@@ -32,7 +32,6 @@ PARAMETERS ACCEPTED<hr></div>
 <br><br>
 5.[about_me]
 <br>This parameter require an another parameter "username" and a value
-<br><b>http://www.utm.my/dev/api/api.php?interface=about-me&username=[value]</b>
 <br>[value] of username must be a valid <a href="https://about.me/login">about.me</a> username.
 <br><br>	
 6.[scival]
@@ -42,16 +41,16 @@ PARAMETERS ACCEPTED<hr></div>
 <br><br>	
 7.[twitter_hashtag]
 <br>This parameter require an additional parameter "hashtag" and a value
-<br><b>http://www.utm.my/dev/api/api.php?interface=twitter-hashtag&hashtag=[value]</b>
+<br><b>http://www.utm.my/dev/api/api.php?interface=twitter_hashtag&hashtag=[value]</b>
 <br>[value] of hashtag is what you want to search.
 <br><br>
 8.[utm_facebook_feed]
+<br><b>http://www.utm.my/dev/api/api.php?interface=utm_facebook_feed</b>
 <br>Return all status posted by utm in facebook together with posted date.
 <br><br>
 9.[profile]
 <br>This parameter require an additional parameter "entry_id" and a value
-<br>Return profile of the respective id.
-
-
+<br><b>http://www.utm.my/dev/api/api.php?interface=profile&entry_id=[value]</b>
+<br>[value] of id is your profile id in profile server.
 </div>
 </div>
