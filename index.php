@@ -24,13 +24,13 @@ PARAMETERS ACCEPTED<hr></div>
 2.[podcast]
 <br>Returns the podcast related content from podcast site <a href="http://www.utm.my/listen/podcast/">http://www.utm.my/listen/podcast</a>
 <br><br>
-3.[utm-event]
+3.[utm_event]
 <br>Return four (4) events which feeded from the events server located at <a href="http://events.utm.my/">http://events.utm.my</a>
 <br><br>
-4.[utm-news-latest]
+4.[utm_news_latest]
 <br>Return all news which feeded from the news server located at <a href="http://www.news.utm.my/">http://news.utm.my</a>
 <br><br>
-5.[about-me]
+5.[about_me]
 <br>This parameter require an another parameter "username" and a value
 <br><b>http://www.utm.my/dev/api/api.php?interface=about-me&username=[value]</b>
 <br>[value] of username must be a valid <a href="https://about.me/login">about.me</a> username.
@@ -40,12 +40,12 @@ PARAMETERS ACCEPTED<hr></div>
 <br><b>http://www.utm.my/dev/api/api.php?interface=scival&expertid=[value]</b>
 <br>[value] of expertid must be a positive integer.
 <br><br>	
-7.[twitter-hashtag]
+7.[twitter_hashtag]
 <br>This parameter require an additional parameter "hashtag" and a value
 <br><b>http://www.utm.my/dev/api/api.php?interface=twitter-hashtag&hashtag=[value]</b>
 <br>[value] of hashtag is what you want to search.
 <br><br>
-8.[utm-facebook-feed]
+8.[utm_facebook_feed]
 <br>Return all status posted by utm in facebook together with posted date.
 </div>
 </div>
