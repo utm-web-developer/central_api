@@ -1,18 +1,17 @@
 <?php
-file_get_contents("https://www.google.com");
 require_once ("supportFunction.php");
 // register interface here
 // you can close any api for maintainance by ( $interface["api-name"] = false )
 $interface = array();
-$interface["about-me"] = true; // &username=
+$interface["about_me"] = true; // &username=
 $interface["podcast"] = true;
-$interface["utm-event"] = true;
+$interface["utm_event"] = true;
 $interface["iboard"] = true;
-$interface["utm-news-latest"] = true;
+$interface["utm_news_latest"] = true;
 $interface["scival"] = true;
 $interface["news"] = true;
-$interface["utm-facebook-feed"] = true;
-$interface["twitter-hashtag"] = true;
+$interface["utm_facebook_feed"] = true;
+$interface["twitter_hashtag"] = true;
 ////////////////////////////////////
 // Do not edit after this line
 ////////////////////////////////////
