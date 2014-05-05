@@ -49,4 +49,3 @@ PARAMETERS ACCEPTED<hr></div>
 <br>Return all status posted by utm in facebook together with posted date.
 </div>
 </div>
-</div>

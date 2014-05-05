@@ -12,6 +12,7 @@ $interface["scival"] = true;
 $interface["news"] = true;
 $interface["utm_facebook_feed"] = true;
 $interface["twitter_hashtag"] = true;
+$interface["profile"] = true;
 ////////////////////////////////////
 // Do not edit after this line
 ////////////////////////////////////
