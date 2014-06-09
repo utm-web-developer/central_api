@@ -1,0 +1,29 @@
+<?php
+
+if ($type=="user_login")
+{
+$username = isset($_GET['username']) ? $_GET['username'] : "" ;
+$password = isset($_GET['password']) ? $_GET['password'] : "" ;	
+
+$loginObj = wp_authenticate($username,$password);
+//echo get_class($loginObj);
+
+if (get_class($loginObj) == WP_User)
+{
+
+$temp = array ('ID'=> $loginObj->data->ID,'name'=>$loginObj->data->user_nicename, 'subscription' => $loginObj->roles[0]);
+
+array_push($jsonResult,$temp);
+//echo $loginObj->data->ID;
+//echo $loginObj->data->user_nicename;
+//echo $loginObj->roles[0];
+}
+else
+{
+array_push($jsonResult,array('error'=>'wrong username/password'));
+}
+//var_dump($loginObj);
+
+
+}
+

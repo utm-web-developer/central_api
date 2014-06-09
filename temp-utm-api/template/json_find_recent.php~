@@ -1,0 +1,15 @@
+<?php
+$args = array(
+'post_type' => 'Video',
+'posts_per_page' => '20',
+);
+
+$jsonResult = array();
+$query = new WP_Query( $args );
+while( $query->have_posts() ):
+$query->next_post();
+$custom_var = get_post_custom($query->post->ID);
+$temp = array("id"=>$query->post->ID,"title"=>$query->post->post_title,"content"=>$query->post->post_content, "video"=>$custom_var['video'][0],"premium"=>$custom_var['premium'][0],"thumbnail"=>$custom_var['thumbnail'][0]);
+array_push($jsonResult,array($temp));
+endwhile;
+

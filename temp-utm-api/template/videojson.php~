@@ -1,0 +1,47 @@
+<?php
+include MPVID_PLUGIN_PATH."template/supportFunction.php";
+$type = isset($_GET['type']) ? $_GET['type'] : "" ;
+
+$jsonResult = array();
+
+switch ($type) {
+    case "find_recent":
+	include MPVID_PLUGIN_PATH."template/json_find_recent.php";        
+	break;
+    case "tags_list":
+	include MPVID_PLUGIN_PATH."template/json_tag_list.php";        
+        break;
+    case "tags":
+	include MPVID_PLUGIN_PATH."template/json_tags.php";
+        break;
+    case "user_login":
+	include MPVID_PLUGIN_PATH."template/json_user_login.php";
+    	break;
+    case "get_video":
+	include MPVID_PLUGIN_PATH."template/json_user_login.php";
+    	break;    	
+    default:
+    	array_push($jsonResult,array('error'=>'wrong parameter'));
+}
+
+
+
+
+
+
+
+
+
+
+function jsonp_encode($data)    
+    {
+    $json = json_encode($data);
+    return isset($_GET['callback']) ? "{$_GET['callback']}(".$json.")" : json_encode($data);
+    }
+
+
+header("HTTP/1.1 200 OK");
+header('Content-Type: application/json');
+$json = jsonp_encode($jsonResult);
+echo $json;
+?>

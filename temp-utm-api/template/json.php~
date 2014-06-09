@@ -1,0 +1,148 @@
+<?php
+$latlon = isset($_GET['latlon']) ? $_GET['latlon'] : "" ;
+$distance = isset($_GET['distance']) ? (int)$_GET['distance']:"";
+$add = isset($_GET['add'])? $_GET['add'] : "";
+if ($latlon == "" || $distance == "")
+{
+die("wrong query.");
+}
+
+
+
+
+$onekm_to_onelat = 0.008983;
+$onekm_to_onelon = 0.015060;
+
+
+
+$latlon = str_replace("(","",$latlon);
+$latlon = str_replace(")","",$latlon);
+$latlon = str_replace(" ","",$latlon);
+$latlon = explode(",",$latlon);
+//var_dump($latlon);
+//var_dump($distance);
+
+$dLat = $distance * $onekm_to_onelat;
+$dLon = $distance * $onekm_to_onelon;
+
+
+$args = array(
+    'post_type' => 'Coordinate',
+    'meta_query' => array(
+        array(
+            'key' => 'lon',
+            'value' => ''.$latlon[1] - $dLon,
+            'compare' => '>='
+        ),
+        array(
+            'key' => 'lon',
+            'value' => ''.$latlon[1] + $dLon,
+            'compare' => '<='
+        ),        
+        array(
+            'key' => 'lat',
+            'value' => ''.$latlon[0] - $dLat,
+            'compare' => '>='
+        ),
+        array(
+            'key' => 'lat',
+            'value' => ''.$latlon[0] + $dLat,
+            'compare' => '<='            
+        )        
+    )
+);
+
+$jsonResult = array();
+$query = new WP_Query( $args );
+while( $query->have_posts() ):
+    $query->next_post();
+    $custom_var = get_post_custom($query->post->ID);
+    
+    
+    $temp = array("id"=>$query->post->ID,"title"=>$query->post->post_title,"lat"=>$custom_var['lat'][0],"lon"=>$custom_var['lon'][0]);
+    array_push($jsonResult,$temp);
+endwhile;
+
+header("HTTP/1.1 200 OK");
+header('Content-Type: application/json');
+$json = json_encode($jsonResult);
+echo $json;
+
+
+
+
+
+/*
+if ($add == "true")
+{
+    $new_post = array(
+        'post_status' => 'publish',
+        'post_title' => 'test',
+        'post_type' => 'Coordinate',
+        'post_content' => 'this is content'
+    );
+
+    // Run the insert and add all meta values
+    $new_post_id = wp_insert_post($new_post);
+    add_post_meta($new_post_id, "lat", $latlon[0]);
+    add_post_meta($new_post_id, "lon", $latlon[1]);
+    die('added!');
+}
+*/
+
+
+
+/*
+
+
+
+date_default_timezone_set('Asia/Kuala_Lumpur');
+$now = strtotime("now");
+//echo date("Y-m-d H:i:s",(int)$now);
+//echo $now;
+$args = array(
+    'post_type' => 'Coordinate',
+    'meta_query' => array(
+        array(
+            'key' => 'lon',
+            'value' => ''.$now,
+            'compare' => '<='
+        ),
+        array(
+            'key' => 'lat',
+            'value' => ''.$now,
+            'compare' => '>'
+        )        
+    )
+);
+
+
+$jsonStack = array();
+$priorityJsonStack = array();
+
+$query = new WP_Query( $args );
+while( $query->have_posts() ):
+    $query->next_post();
+    $custom_var = get_post_custom($query->post->ID);
+
+    $varTemp = array("title"=>$query->post->post_title,"content"=>$query->post->post_content,"image"=>$custom_var['image'][0],"datestart"=>date("Y-m-d H:i:s",(int)$custom_var['dateTimeStart'][0]),"dateend"=>date("Y-m-d H:i:s",(int)$custom_var['dateTimeEnd'][0]));    
+
+    if ($custom_var['priority'][0] == "standard")
+    {    
+    array_push($jsonStack,$varTemp);
+    }
+
+    if ($custom_var['priority'][0] == "high")
+    {    
+    array_push($priorityJsonStack,$varTemp);
+    }    
+endwhile;
+
+*/
+
+
+
+
+
+
+?>

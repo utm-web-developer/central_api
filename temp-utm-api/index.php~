@@ -1,0 +1,233 @@
+<?php
+/**
+ * @package misterpah - Video
+ * @version 0.1
+ */
+/*
+Plugin Name: Misterpah Video
+Plugin URI: http://misterpah.com
+Description: provide JSON interface to get Video
+Author: Misterpah
+Version: 0.1
+Author URI: http://misterpah.com
+*/
+
+// var prefix MPVID
+
+
+$url = plugin_dir_path(__FILE__);
+
+
+global $wpdb;
+define("MPVID_PLUGIN_NAME",basename($url));
+define("MPVID_PLUGIN_PATH",plugin_dir_path(__FILE__));
+define("MPVID_PLUGIN_URL",WP_PLUGIN_URL . "/".MPVID_PLUGIN_NAME."/");
+
+register_activation_hook( __FILE__, 'MPVID_activate' );
+function MPVID_activate(){
+add_role('subscriber_free', 'Free Subscriber', array(
+    'read' => true // True allows that capability
+));
+
+add_role('subscriber_paid', 'Paid Subscriber', array(
+    'read' => true // True allows that capability
+));
+}
+
+
+
+
+
+
+add_action( 'show_user_profile', 'my_show_extra_profile_fields' );
+add_action( 'edit_user_profile', 'my_show_extra_profile_fields' );
+
+function my_show_extra_profile_fields( $user ) { 
+	if ( current_user_can( 'edit_user', $user_id ) )
+	{
+	?>
+	<h3>Extra profile information</h3>
+	<table class="form-table">
+		<tr>
+			<th><label for="expired">Expired Date :</label></th>
+
+			<td>
+				<input type="text" name="expired" id="expired" value="<?php echo esc_attr( get_the_author_meta( 'expired', $user->ID ) ); ?>" class="regular-text" /><br />
+				<span class="description">Expired date for Paid Subscription. </span>
+			</td>
+		</tr>
+
+	</table>
+	<?php 
+	}// current_user_can_edit END
+}
+
+
+add_action( 'personal_options_update','my_save_extra_profile_fields' );
+add_action( 'edit_user_profile_update','my_save_extra_profile_fields' );
+
+function my_save_extra_profile_fields( $user_id ) {
+
+	if ( !current_user_can( 'edit_user', $user_id ) )
+		return false;
+
+	/* Copy and paste this line for additional fields. Make sure to change 'twitter' to the field ID. */
+	update_usermeta( $user_id, 'expired', $_POST['expired'] );
+}
+
+
+
+
+
+
+
+add_action( 'init', 'MPVID_postType' );
+function MPVID_postType() {
+	$labels = array(
+		'name'               => _x( 'Video', 'post type general name' ),
+		'singular_name'      => _x( 'Video', 'post type singular name' ),
+		'add_new'            => _x( 'Add New', 'book' ),
+		'add_new_item'       => __( 'Add New Video' ),
+		'edit_item'          => __( 'Edit Video' ),
+		'new_item'           => __( 'New Video' ),
+		'all_items'          => __( 'All Video' ),
+		'view_item'          => __( 'View Video' ),
+		'search_items'       => __( 'Search Video' ),
+		'not_found'          => __( 'No Video found' ),
+		'not_found_in_trash' => __( 'No Video found in the Trash' ), 
+		'parent_item_colon'  => '',
+		'menu_name'          => 'Video'
+	);
+	$args = array(
+		'labels'        => $labels,
+		'description'   => 'Holds our Video specific data',
+		'public'        => true,
+		'menu_position' => 5,
+		'supports'      => array( 'title', 'editor','comments'),
+		'has_archive'   => true,
+        'taxonomies' => array('post_tag')
+	);
+	register_post_type( 'Video', $args );	
+    register_taxonomy_for_object_type('post_tag', 'Video');
+}
+
+
+
+add_action( 'add_meta_boxes', 'MPVID_meta' );  
+function MPVID_meta()  
+{
+	add_meta_box( 'MPVID_meta_id', 'METAS - DO NOT EDIT', 'MPVID_meta_add', 'Video', 'side', 'core' );  
+}
+
+function MPVID_meta_add()
+{
+    // $post is already set, and contains an object: the WordPress post  
+    global $post;  
+    $values = get_post_custom($post->ID);  
+
+    $video = isset($values['video']) ? $values['video'][0]:'';
+    $premium = isset($values['premium']) ? $values['premium'][0]:'';
+    $thumbnail = isset($values['thumbnail']) ? $values['thumbnail'][0]:'';
+
+
+
+    // We'll use this nonce field later on when saving.  
+    wp_nonce_field( 'my_meta_box_nonce', 'meta_box_nonce' ); 
+
+    $metaParameter = array();
+    array_push($metaParameter,array("video","video"));
+    array_push($metaParameter,array("premium","premium"));
+    array_push($metaParameter,array("thumbnail (100px * 100px )","thumbnail"));
+
+    date_default_timezone_set('Asia/Kuala_Lumpur'); 
+    $now = strtotime("now");
+
+    for ($i = 0;$i < count($metaParameter); $i++)
+    {
+    	$varname = $metaParameter[$i][1];
+    	?>
+		<p> 
+		<label for="<?php echo $metaParameter[$i][1];?>"><?php echo $metaParameter[$i][0];?></label><br/>
+		<input type="text" name="<?php echo $metaParameter[$i][1];?>" id="<?php echo $metaParameter[$i][1];?>" value="<?php eval("echo \$".$varname.";"); ?>" /> 
+		</p>     	
+    	<?php
+    }
+}
+
+
+
+
+
+
+add_action( 'save_post', 'MPVID_meta_save' );  
+function MPVID_meta_save( $post_id )  
+{  
+    // Bail if we're doing an auto save  
+    if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return; 
+     
+    // if our nonce isn't there, or we can't verify it, bail 
+    if( !isset( $_POST['meta_box_nonce'] ) || !wp_verify_nonce( $_POST['meta_box_nonce'], 'my_meta_box_nonce' ) ) return; 
+     
+    // if our current user can't edit this post, bail  
+    if( !current_user_can( 'edit_post' ) ) return;  
+      
+    // now we can actually save the data  
+    $allowed = array(   
+        'a' => array( // on allow a tags  
+            'href' => array() // and those anchors can only have href attribute  
+        )  
+    );  
+      
+
+    $metaParameter = array();
+    array_push($metaParameter,array("video","video"));
+    array_push($metaParameter,array("premium","premium"));
+    array_push($metaParameter,array("thumbnail (100px * 100px )","thumbnail"));
+    
+    for ($i = 0;$i < count($metaParameter); $i++)
+    {
+    	$varname = $metaParameter[$i][1];
+
+	    if( isset( $_POST[$varname] ) )  
+	        update_post_meta( $post_id, $varname, wp_kses( $_POST[$varname], $allowed ) );  
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function MPVID_override_specific_url_template($template){
+
+    // is a specific custom taxonomy being shown?
+
+    $temp = explode("/",$_SERVER['REQUEST_URI']);
+    $tempLen = count($temp) -1;
+    $currentUrl = $temp[$tempLen];
+    $exploded_url = explode ("?",$currentUrl);
+
+    if ($exploded_url[0] == "videojson")
+    {
+        $template = MPVID_PLUGIN_PATH.'template/videojson.php';
+    }
+  return $template;
+
+ }
+ add_filter('template_include','MPVID_override_specific_url_template');

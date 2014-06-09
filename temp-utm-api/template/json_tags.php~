@@ -1,0 +1,39 @@
+<?php
+$tagsVal = isset($_GET['tagsVal']) ? $_GET['tagsVal'] : "" ;
+$tagsVal = sanitize($tagsVal);
+if ($tagsVal == "")
+{
+die("wrong parameter for tags");
+}
+
+$args = array(
+'post_type' => 'Video',
+'posts_per_page' => '50',
+'tag'=>$tagsVal
+);
+
+
+$query = new WP_Query( $args );
+while( $query->have_posts() ):
+$query->next_post();
+$custom_var = get_post_custom($query->post->ID);
+
+$tags = wp_get_post_tags($query->post->ID);
+
+$tags_array = array();
+for ($aaa = 0;$aaa < count($tags);$aaa++)
+{
+$cur_tags = $tags[$aaa];
+array_push($tags_array,$cur_tags->slug);
+}
+
+$tags = implode(",",$tags_array);        
+
+//var_dump($custom_var);
+
+$temp = array("id"=>$query->post->ID,"title"=>$query->post->post_title,"content"=>$query->post->post_content,"tags"=>$tags,"video"=>$custom_var["video"][0]);
+array_push($jsonResult,$temp);
+
+//var_dump($query->post);
+endwhile;   
+

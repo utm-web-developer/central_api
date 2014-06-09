@@ -1,0 +1,10 @@
+<?php
+$tags = get_terms_by_post_type(array('post_tag'), array('Video') );
+
+$tag_list = array();
+for ($tagsi = 0;$tagsi < count ($tags);$tagsi++)
+{
+$cur = $tags[$tagsi];
+array_push($tag_list,$cur->slug);
+}
+array_push($jsonResult,$temp);

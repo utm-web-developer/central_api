@@ -48,9 +48,14 @@ PARAMETERS ACCEPTED<hr></div>
 <br><b>http://www.utm.my/dev/api/api.php?interface=utm_facebook_feed</b>
 <br>Return all status posted by utm in facebook together with posted date.
 <br><br>
-9.[profile]
+9.[profile] <B>Deprecated ! use [email_signiture] instead</B>
 <br>This parameter require an additional parameter "entry_id" and a value
 <br><b>http://www.utm.my/dev/api/api.php?interface=profile&entry_id=[value]</b>
+<br>[value] of id is your profile id in profile server.
+<br><br>
+10.[email_signature]
+<br>This parameter require an additional parameter "id" and a value
+<br><b>http://www.utm.my/dev/api/api.php?interface=email_signature&id=[value]</b>
 <br>[value] of id is your profile id in profile server.
 </div>
 </div>
